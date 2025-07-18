@@ -10,8 +10,6 @@ import SnappyCodec from 'kafkajs-snappy';
 
 import { CONFIG } from '../config';
 
-CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec;
-
 export interface ProducerOptions {
   clientId: string;
   brokers: string[];
@@ -23,6 +21,7 @@ export class Producer {
   private kafka: Kafka;
   private topic: string;
   private producer: ReturnType<Kafka['producer']>;
+  private isCodecRegistered = false;
 
   constructor(options: ProducerOptions) {
     const { clientId, brokers, logLevel = 'ERROR', topic = CONFIG.KAFKA_TOPIC } = options;
@@ -34,6 +33,14 @@ export class Producer {
     });
 
     this.topic = topic;
+
+    if (!this.isCodecRegistered) {
+      try {
+        CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec;
+        this.isCodecRegistered = true;
+      } catch (err) {}
+    }
+
     this.producer = this.kafka.producer({
       idempotent: true,
     });
