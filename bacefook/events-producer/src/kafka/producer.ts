@@ -8,13 +8,11 @@ import {
 } from 'kafkajs';
 import SnappyCodec from 'kafkajs-snappy';
 
-import { CONFIG } from '../config';
-
 export interface ProducerOptions {
   clientId: string;
   brokers: string[];
+  topic: string;
   logLevel?: keyof typeof LogLevels;
-  topic?: string;
 }
 
 export class Producer {
@@ -24,7 +22,7 @@ export class Producer {
   private isCodecRegistered = false;
 
   constructor(options: ProducerOptions) {
-    const { clientId, brokers, logLevel = 'ERROR', topic = CONFIG.KAFKA_TOPIC } = options;
+    const { clientId, brokers, topic, logLevel = 'ERROR' } = options;
 
     this.kafka = new Kafka({
       clientId,

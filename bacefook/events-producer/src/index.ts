@@ -11,6 +11,7 @@ async function main() {
   const producer = new Producer({
     clientId: 'bacefook-producer',
     brokers: [CONFIG.KAFKA_BROKER],
+    topic: CONFIG.KAFKA_TOPIC,
     logLevel: 'ERROR',
   });
 

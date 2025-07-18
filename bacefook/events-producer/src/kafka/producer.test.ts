@@ -24,6 +24,7 @@ describe('Producer', () => {
     producer = new Producer({
       clientId: 'mock-client',
       brokers: ['mock:9092'],
+      topic: 'mock-topic',
     });
     await producer.connect();
   });
