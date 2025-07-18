@@ -1,0 +1,63 @@
+services:
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.3.18
+    container_name: redpanda
+    command:
+      - redpanda
+      - start
+      - --mode
+      - dev-container
+      - --smp=1
+      - --reserve-memory=0
+      - --overprovisioned
+      - --unsafe-bypass-fsync=true
+      - --kafka-addr=internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr=internal://redpanda:9092,external://localhost:19092
+    ports:
+      - '19092:9092'
+      - '9644:9644'
+    networks: [rp_net]
+
+  console:
+    image: docker.redpanda.com/redpandadata/console:v2.8.8
+    container_name: redpanda-console
+    depends_on: [redpanda]
+    environment:
+      CONFIG_FILEPATH: /tmp/console-config.yml
+      CONSOLE_CONFIG_FILE: |
+        kafka:
+          brokers: ["redpanda:9092"]      # <— leave plain
+        redpanda:
+          adminApi:
+            enabled: true
+            urls: ["http://redpanda:9644"]
+    entrypoint: /bin/sh
+    command: -c 'echo "$$CONSOLE_CONFIG_FILE" > /tmp/console-config.yml && /app/console'
+    ports:
+      - '8080:8080'
+    networks: [rp_net]
+
+  init-topic:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.3.18
+    container_name: redpanda-init-topic
+    depends_on: [redpanda]
+    entrypoint: /bin/sh
+    command: >
+      -c '
+        echo "Waiting for Redpanda to be ready..." &&
+        until rpk cluster info --brokers=redpanda:9092 > /dev/null 2>&1; do
+          sleep 1
+        done &&
+        echo "Redpanda is ready. Creating topic..." &&
+        rpk topic create bacefook-relationship-events-topic \
+          --brokers=redpanda:9092 \
+          --partitions=1 \
+          --replicas=1 \
+          -c compression.type=snappy \
+          -c retention.ms=604800000
+      '
+    networks: [rp_net]
+
+networks:
+  rp_net:
+    driver: bridge
