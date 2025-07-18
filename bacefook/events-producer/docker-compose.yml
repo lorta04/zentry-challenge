@@ -14,8 +14,8 @@ services:
       - --kafka-addr=internal://0.0.0.0:9092,external://0.0.0.0:19092
       - --advertise-kafka-addr=internal://redpanda:9092,external://localhost:19092
     ports:
-      - '19092:9092'
-      - '9644:9644'
+      - '19092:19092' # host‑side Kafka
+      - '9644:9644' # admin
     networks: [rp_net]
 
   console:
@@ -26,7 +26,7 @@ services:
       CONFIG_FILEPATH: /tmp/console-config.yml
       CONSOLE_CONFIG_FILE: |
         kafka:
-          brokers: ["redpanda:9092"]      # <— leave plain
+          brokers: ["redpanda:9092"]          # internal address
         redpanda:
           adminApi:
             enabled: true
@@ -44,11 +44,11 @@ services:
     entrypoint: /bin/sh
     command: >
       -c '
-        echo "Waiting for Redpanda to be ready..." &&
-        until rpk cluster info --brokers=redpanda:9092 > /dev/null 2>&1; do
-          sleep 1
-        done &&
-        echo "Redpanda is ready. Creating topic..." &&
+        echo "⏳ waiting for broker" ;
+        until rpk cluster info --brokers=redpanda:9092 >/dev/null 2>&1 ; do
+          sleep 1 ;
+        done ;
+        echo "✅ broker ready, creating topic" ;
         rpk topic create bacefook-relationship-events-topic \
           --brokers=redpanda:9092 \
           --partitions=1 \
