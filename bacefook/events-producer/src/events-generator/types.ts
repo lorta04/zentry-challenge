@@ -1,7 +1,7 @@
-export type RegisterType = "register";
-export type ReferralType = "referral";
-export type AddFriendType = "addfriend";
-export type UnfriendType = "unfriend";
+export type RegisterType = 'register';
+export type ReferralType = 'referral';
+export type AddFriendType = 'addfriend';
+export type UnfriendType = 'unfriend';
 
 export interface RegisterEvent {
   type: RegisterType;
@@ -30,8 +30,4 @@ export interface UnfriendEvent {
   created_at: string;
 }
 
-export type ConnectionEvent =
-  | RegisterEvent
-  | ReferralEvent
-  | AddFriendEvent
-  | UnfriendEvent;
+export type ConnectionEvent = RegisterEvent | ReferralEvent | AddFriendEvent | UnfriendEvent;

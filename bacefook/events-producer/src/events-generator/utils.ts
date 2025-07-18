@@ -8,6 +8,6 @@ export class Utils {
   }
 
   public static timestamp(): string {
-    return new Date().toISOString().replace(/[-:.]/g, "");
+    return new Date().toISOString().replace(/[-:.]/g, '');
   }
 }

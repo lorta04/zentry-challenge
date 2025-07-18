@@ -1,30 +1,26 @@
-import {
+import type {
   AddFriendEvent,
   ConnectionEvent,
   ReferralEvent,
   RegisterEvent,
   UnfriendEvent,
-} from "./types";
-import { Utils } from "./utils";
+} from './types';
+import { Utils } from './utils';
 
 export class EventsGenerator {
   private users: string[] = [];
   private friendships: Map<string, Set<string>> = new Map();
 
   private nextUserName(idx: number): string {
-    return `user${String(idx + 1).padStart(5, "0")}`;
+    return `user${String(idx + 1).padStart(5, '0')}`;
   }
 
-  private registerUsers(
-    n: number,
-    startIdx: number,
-    ts: string
-  ): RegisterEvent[] {
+  private registerUsers(n: number, startIdx: number, ts: string): RegisterEvent[] {
     const events: RegisterEvent[] = [];
     for (let i = 0; i < n; i++) {
       const name = this.nextUserName(startIdx + i);
       this.users.push(name);
-      events.push({ type: "register", name, created_at: ts });
+      events.push({ type: 'register', name, created_at: ts });
     }
     return events;
   }
@@ -35,10 +31,10 @@ export class EventsGenerator {
       if (this.users.length > 1 && Utils.chance(0.2)) {
         let referrer: string;
         do {
-          referrer = this.users[Utils.randInt(0, this.users.length - 2)];
+          referrer = this.users[Utils.randInt(0, this.users.length - 2)] as string;
         } while (referrer === user);
         events.push({
-          type: "referral",
+          type: 'referral',
           referredBy: referrer,
           user,
           created_at: ts,
@@ -78,10 +74,10 @@ export class EventsGenerator {
     this.users.forEach((u) => {
       const target = Utils.randInt(0, cap);
       while (this.degree(u) < target) {
-        const v = this.users[Utils.randInt(0, this.users.length - 1)];
+        const v = this.users[Utils.randInt(0, this.users.length - 1)] as string;
         if (this.addFriend(u, v)) {
           events.push({
-            type: "addfriend",
+            type: 'addfriend',
             user1_name: u,
             user2_name: v,
             created_at: ts,
@@ -98,10 +94,10 @@ export class EventsGenerator {
     this.users.forEach((u) => {
       if (!Utils.chance(0.3)) return;
       for (let i = 0; i < 10; i++) {
-        const v = this.users[Utils.randInt(0, this.users.length - 1)];
+        const v = this.users[Utils.randInt(0, this.users.length - 1)] as string;
         if (this.addFriend(u, v)) {
           events.push({
-            type: "addfriend",
+            type: 'addfriend',
             user1_name: u,
             user2_name: v,
             created_at: ts,
@@ -120,7 +116,7 @@ export class EventsGenerator {
         if (u < v && Utils.chance(0.2)) {
           this.removeFriend(u, v);
           events.push({
-            type: "unfriend",
+            type: 'unfriend',
             user1_name: u,
             user2_name: v,
             created_at: ts,
@@ -150,9 +146,7 @@ export class EventsGenerator {
    */
   public async *stream(count: number) {
     if (!Number.isFinite(count) || count <= 0) {
-      throw new Error(
-        "Please supply a positive integer for initial user count."
-      );
+      throw new Error('Please supply a positive integer for initial user count.');
     }
 
     for (;;) {
