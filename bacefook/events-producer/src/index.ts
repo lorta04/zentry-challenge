@@ -1,8 +1,7 @@
+import { CONFIG } from 'config';
+import { EventsGenerator } from 'events-generator';
+import { Producer } from 'kafka/producer';
 import { logError } from 'utils';
-
-import { CONFIG } from './config';
-import { EventsGenerator } from './events-generator';
-import { Producer } from './kafka/producer';
 
 async function main() {
   const generator = new EventsGenerator();
