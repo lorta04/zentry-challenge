@@ -80,7 +80,6 @@ export class MongoModule {
               referrals: n.referrals,
               friends: n.friends,
               referralPoints: n.referralPoints,
-              referralChildrenAwarded: n.referralChildrenAwarded,
               lastSeq: n.lastSeq,
               referralsCount: n.referralsCount,
               friendsCount: n.friendsCount,

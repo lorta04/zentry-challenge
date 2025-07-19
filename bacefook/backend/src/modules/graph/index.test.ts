@@ -32,7 +32,6 @@ describe('GraphModule', () => {
         referrals: [],
         friends: [],
         referralPoints: 0,
-        referralChildrenAwarded: [],
         lastSeq: 1,
         referralsCount: 0,
         friendsCount: 0,
@@ -119,7 +118,6 @@ describe('GraphModule', () => {
       expect(parent).toBeDefined();
       expect(parent!.referralPoints).toBe(1);
       expect(parent!.referrals).toContain('child');
-      expect(parent!.referralChildrenAwarded).toContain('child');
       expect(child).toBeDefined();
       expect(child!.referredBy).toBe('parent');
     });

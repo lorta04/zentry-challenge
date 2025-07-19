@@ -54,7 +54,6 @@ export class GraphModule {
         referrals: Array.from(u.referrals),
         friends: Array.from(u.friends),
         referralPoints: u.referralPoints,
-        referralChildrenAwarded: Array.from(u.referralChildrenAwarded),
         lastSeq: u.lastSeq,
         referralsCount: u.referralsCount,
         friendsCount: u.friendsCount,
@@ -75,7 +74,6 @@ export class GraphModule {
         referrals: new Set(d.referrals ?? []),
         friends: new Set(d.friends ?? []),
         referralPoints: d.referralPoints ?? 0,
-        referralChildrenAwarded: new Set(d.referralChildrenAwarded ?? []),
         lastSeq: d.lastSeq ?? -1,
         referralsCount: d.referralsCount ?? d.referrals?.length ?? 0,
         friendsCount: d.friendsCount ?? d.friends?.length ?? 0,
@@ -94,7 +92,6 @@ export class GraphModule {
       lastSeq: u.lastSeq,
       referralsCount: u.referralsCount,
       friendsCount: u.friendsCount,
-      referralChildrenAwarded: Array.from(u.referralChildrenAwarded),
     }));
   }
 
@@ -137,12 +134,6 @@ export class GraphModule {
     const beforeSize = parent.referrals.size;
     parent.referrals.add(child.name);
     if (parent.referrals.size !== beforeSize) {
-      mutated = true;
-      this.markDirty(parent.name);
-    }
-
-    if (!parent.referralChildrenAwarded.has(child.name)) {
-      parent.referralChildrenAwarded.add(child.name);
       mutated = true;
       this.markDirty(parent.name);
       this.propagateReferralPoints(parent.name);
@@ -232,7 +223,6 @@ export class GraphModule {
         referrals: new Set(),
         friends: new Set(),
         referralPoints: 0,
-        referralChildrenAwarded: new Set(),
         lastSeq: -1,
         referralsCount: 0,
         friendsCount: 0,

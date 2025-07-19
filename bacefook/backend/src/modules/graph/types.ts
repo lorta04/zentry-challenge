@@ -19,7 +19,6 @@ export interface PersistableUserNode {
   referrals: string[];
   friends: string[];
   referralPoints: number;
-  referralChildrenAwarded: string[];
   lastSeq: number;
   referralsCount: number;
   friendsCount: number;
@@ -32,7 +31,6 @@ export interface UserNode {
   referrals: Set<string>;
   friends: Set<string>;
   referralPoints: number;
-  referralChildrenAwarded: Set<string>;
   lastSeq: number;
   referralsCount: number;
   friendsCount: number;
