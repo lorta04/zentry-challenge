@@ -16,31 +16,43 @@ async function main() {
 
   await producer.connect();
 
+  let totalSent = 0;
   let sentThisSecond = 0;
-  setInterval(() => {
-    const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] ✅ Sent ${sentThisSecond} message(s) in the last second`);
+
+  const timer = setInterval(() => {
+    console.log(`[${new Date().toISOString()}] ✅ Sent ${sentThisSecond} msg/s`);
     sentThisSecond = 0;
   }, 1000);
 
-  for await (const batch of stream) {
-    let sent = 0;
-    let attempt = 0;
-    let delay = 500;
+  try {
+    for await (const batch of stream) {
+      if (totalSent >= CONFIG.MAX_MESSAGES) break;
 
-    while (true) {
-      try {
-        sent = await producer.send(batch);
-        break;
-      } catch (err) {
-        attempt++;
-        logError(`Send attempt ${attempt} failed`, err, `Retrying in ${delay}ms...`);
-        await new Promise((r) => setTimeout(r, delay));
-        delay = Math.min(delay * 2, 30_000);
+      let sent = 0;
+      let attempt = 0;
+      let delay = 500;
+
+      while (true) {
+        try {
+          sent = await producer.send(batch);
+          break;
+        } catch (err) {
+          attempt++;
+          logError(`Send attempt ${attempt} failed`, err, `Retrying in ${delay}ms…`);
+          await new Promise((r) => setTimeout(r, delay));
+          delay = Math.min(delay * 2, 30_000);
+        }
       }
-    }
 
-    sentThisSecond += sent;
+      totalSent += sent;
+      sentThisSecond += sent;
+
+      if (totalSent >= CONFIG.MAX_MESSAGES) break;
+    }
+  } finally {
+    clearInterval(timer);
+    console.log(`🛑 Reached ${totalSent} messages, shutting down.`);
+    process.exit(0);
   }
 }
 
