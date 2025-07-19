@@ -133,6 +133,7 @@ export class GraphModule {
       mutated = true;
       this.markDirty(child.name);
     }
+
     const beforeSize = parent.referrals.size;
     parent.referrals.add(child.name);
     if (parent.referrals.size !== beforeSize) {
@@ -147,9 +148,7 @@ export class GraphModule {
       this.propagateReferralPoints(parent.name);
     }
 
-    if (!mutated && parent.lastSeq >= ev.seq && child.lastSeq >= ev.seq) {
-      return { applied: false, touched: [] };
-    }
+    if (!mutated) return { applied: false, touched: [] };
 
     this.markApplied(targets, ev.seq);
     return { applied: true, touched: targets };
