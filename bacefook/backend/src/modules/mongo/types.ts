@@ -9,10 +9,8 @@ export interface StoredEvent {
   topic: string;
   partition: number;
   offset: number;
-  seq: number;
   type: ConnectionEvent['type'];
-  createdAt: string;
-  ingestedAt: Date;
+  createdAt: Date;
   event: ConnectionEvent;
 }
 

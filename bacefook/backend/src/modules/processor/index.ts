@@ -4,7 +4,7 @@ import type { KafkaModule } from 'modules/kafka';
 import type { MongoModule } from 'modules/mongo';
 import type { StoredEvent } from 'modules/mongo/types';
 import type { ConnectionEvent } from 'types';
-import { logError } from 'utils';
+import { logError, parseEventDate } from 'utils';
 
 export interface ProcessorOptions {
   resume: boolean;
@@ -106,15 +106,14 @@ export class Processor {
 
       try {
         const evt: ConnectionEvent = JSON.parse(raw);
-        const createdAt = (evt as { created_at: string }).created_at;
+        const createdAtRaw = (evt as { created_at: string }).created_at;
+        const createdAt = parseEventDate(createdAtRaw);
         events.push({
           topic: batch.topic,
           partition: batch.partition,
           offset: offsetNum,
-          seq: offsetNum,
           type: evt.type,
           createdAt,
-          ingestedAt: new Date(),
           event: evt,
         });
 

@@ -21,15 +21,26 @@ export class MongoModule {
 
     this.usersCol = this.db.collection<PersistableUserNode>('relationship_users');
     this.offsetsCol = this.db.collection<OffsetDoc>('kafka_offsets');
+
+    const collections = await this.db.listCollections({ name: 'relationship_events' }).toArray();
+    if (collections.length === 0) {
+      await this.db.createCollection('relationship_events', {
+        timeseries: {
+          timeField: 'createdAt',
+          metaField: 'type',
+          granularity: 'seconds',
+        },
+      });
+    }
+
     this.relationshipEventsCol = this.db.collection<StoredEvent>('relationship_events');
 
     await Promise.all([
       this.usersCol.createIndex({ name: 1 }, { unique: true }),
       this.usersCol.createIndex({ lastSeq: -1 }),
       this.offsetsCol.createIndex({ topic: 1, partition: 1 }, { unique: true }),
-      this.relationshipEventsCol.createIndex({ offset: 1 }, { unique: true }),
+      this.relationshipEventsCol.createIndex({ offset: 1 }),
       this.relationshipEventsCol.createIndex({ 'event.user': 1 }),
-      this.relationshipEventsCol.createIndex({ createdAt: 1 }),
     ]);
   }
 
