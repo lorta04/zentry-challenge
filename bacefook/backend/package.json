@@ -19,7 +19,8 @@
     "typescript": "^5"
   },
   "scripts": {
-    "start": "bun run src/index.ts",
+    "start:processor": "bun run ./src/cmd/processor/main.ts",
+    "start:api": "bun run ./src/cmd/api/main.ts",
     "lint": "bunx eslint .",
     "lint:fix": "bunx eslint . --fix",
     "format": "bunx prettier . --write",
