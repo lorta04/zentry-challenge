@@ -1,0 +1,24 @@
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: mongo-standalone
+    command: >
+      mongod --bind_ip_all
+             --wiredTigerCacheSizeGB 2
+             --setParameter storageEngineConcurrentReadTransactions=256
+             --setParameter storageEngineConcurrentWriteTransactions=192
+             --journalCommitInterval 100
+             --wiredTigerCollectionBlockCompressor snappy
+             --wiredTigerIndexPrefixCompression true
+             --quiet
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - '27017:27017'
+
+volumes:
+  mongo_data:
