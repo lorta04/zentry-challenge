@@ -18,7 +18,7 @@ The relationship graph is designed to be idempotent; duplicate events will not c
 
 ### 3. backend-api
 
-This component serves the following API endpoints:
+This component serves the following API endpoints (default port: `3000`):
 
 - `GET /analytics/network`
 - `GET /analytics/leaderboard`
@@ -26,6 +26,8 @@ This component serves the following API endpoints:
 - `GET /users/{name}/friends`
 - `GET /meta/snapshots`
 - `GET /meta/users`
+
+> Note: `GET /meta/snapshots` and `GET /meta/users` are provided for metadata purposes and are **not** part of the assignment requirements.
 
 On startup, this service also acts as a replayer for processing events stored in MongoDB for analytical purposes. It retrieves all events from MongoDB in batches of 100,000 records and saves them to disk to prevent memory exhaustion. It then uses these on-disk event chunks to feed the relationship graph and generate snapshot files for every 5 seconds of the records' creation times.
 
