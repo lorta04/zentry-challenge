@@ -8,7 +8,7 @@ This project consists of four components:
 
 ### 1. events-producer
 
-This component uses the provided generator to feed data into a Kafka topic with a single partition, achieving a throughput of ~100k messages per second with `count = 5` as the input for the events generator.
+This component uses the provided generator to feed data into a Kafka topic with a single partition, achieving a throughput of ~70-100k messages per second with `count = 5` as the input for the events generator.
 
 ### 2. backend-processor
 
