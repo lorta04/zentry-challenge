@@ -7,6 +7,8 @@ import { analyticsRoute } from 'routes/analytics';
 import { metaRoute } from 'routes/meta';
 import { usersRoute } from 'routes/users';
 
+import { CONFIG } from './config';
+
 await syncAndIngestSnapshots();
 console.log(`📅 First snapshot: ${firstSnapshotTime?.toISOString()}`);
 console.log(`📅 Last snapshot:  ${lastSnapshotTime?.toISOString()}`);
@@ -29,6 +31,6 @@ new Elysia()
       },
     }),
   )
-  .listen(3000);
+  .listen(CONFIG.PORT);
 
-console.log('🦊 Running on http://localhost:3000');
+console.log(`🦊 Running on http://localhost:${CONFIG.PORT}`);
