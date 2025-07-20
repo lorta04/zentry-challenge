@@ -4,7 +4,7 @@
 
 This repository contains the solution for the Zentry backend assignment. It uses Bun as the main JavaScript runtime. Please install Bun to run this project.
 
-Performance was measured on a 2021 MacBook Pro (M1 Pro, 16GB RAM, 512GB SSD).
+Performance was measured on a 2021 MacBook Pro (M1 Pro, 16GB RAM, 512GB SSD) running macOS 15.5 with Bun 1.2.18.
 
 ## Components
 
@@ -58,9 +58,9 @@ The author believes that these four features can be implemented together if atte
 
 This frontend features a total user count on its header and two pages: analytics and user profile.
 
-On the analytics page, you can query with a user's name for a relationship graph showing the friends of the queried user, the users they have referred, and the user that referred the queried user. On this page, you can also query leaderboards of network strength and referral points gained by time range.
+On the analytics page, you can query by username for a relationship graph showing the friends of the queried user, the users they have referred, and the user that referred the queried user. On this page, you can also query leaderboards of network strength and referral points gained by time range.
 
-On the user profile page, you can query with a username to retrieve their top 3 influential friends and their friends, along with those users' friend counts, referral counts, and referral points.
+On the user profile page, you can query by username to retrieve their top 3 influential friends and their friends, along with those users' friend counts, referral counts, and referral points.
 
 Due to time constraints, the time series requirements on the user profile page have not been implemented.
 
@@ -116,7 +116,6 @@ Please see the README in each component's folder to continue the startup process
 - Display a `referral points` ranking in a leaderboard-like list for any time range.
 - Display a user's top 3 `influential friends`.
 - Display a paginated list of a user's friends.
-- Frontend // TODO
 
 ## What Hasn't Been Accomplished
 
