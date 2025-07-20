@@ -219,7 +219,7 @@ export function NetworkGraph() {
             <Background />
           </ReactFlow>
           
-          <div className="absolute bottom-4 left-4 bg-background/90 backdrop-blur-sm rounded-lg p-3 border z-10">
+          <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm rounded-lg p-3 border z-10">
             <div className="text-sm font-medium mb-2">Legend</div>
             <div className="space-y-1 text-xs">
               <div className="flex items-center gap-2"><div className="w-4 h-4 rounded-sm bg-[#8b5cf6]"></div><span>Queried User</span></div>
