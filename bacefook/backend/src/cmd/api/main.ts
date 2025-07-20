@@ -1,3 +1,4 @@
+import { cors } from '@elysiajs/cors';
 import swagger from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
 import { firstSnapshotTime, lastSnapshotTime, syncAndIngestSnapshots } from 'modules/snapshot';
@@ -11,6 +12,7 @@ console.log(`📅 First snapshot: ${firstSnapshotTime?.toISOString()}`);
 console.log(`📅 Last snapshot:  ${lastSnapshotTime?.toISOString()}`);
 
 new Elysia()
+  .use(cors({ origin: true }))
   .use(mongoPlugin)
   .group('/analytics', (app) => app.use(analyticsRoute))
   .group('/users', (app) => app.use(usersRoute))
