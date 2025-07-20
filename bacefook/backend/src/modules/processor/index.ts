@@ -164,7 +164,7 @@ export class Processor {
       eachBatch: async (p) => this.handleBatch(p),
     });
 
-    this.intervalTimer = setInterval(() => this.printStats(), 5000);
+    this.intervalTimer = setInterval(() => this.printStats(), 1000);
   }
 
   async stop() {
