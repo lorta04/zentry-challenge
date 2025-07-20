@@ -1,11 +1,7 @@
-# Welcome, candidate!
+# Assignment Submission
 
-Pick your poison! You can choose to do either based on your current skillset. We recommend [backend](/backend) for fullstack and backend software engineers and [frontend](/frontend) for those who are familiar with the way of the web.
+Thank you for the opportunity!
 
-## Time Limit
+Please see [`bacefook/readme.md`](./bacefook/readme.md) for the full content of my submission.
 
-Backend: up to 5 days
-
-Frontend: up to 7 days
-
-Goodluck!
+Looking forward to your feedback.
