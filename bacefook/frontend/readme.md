@@ -2,6 +2,8 @@
 
 The frontend provides a user interface to visualize and explore the Bacefook relationship network and user-specific data.
 
+Made with help from v0.dev.
+
 ### Pages
 
 1.  **Analytics**

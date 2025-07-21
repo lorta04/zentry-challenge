@@ -56,6 +56,8 @@ The author believes that these four features can be implemented together if atte
 
 ![Frontend 3](images/frontend_3.png)
 
+Vibe-coded with v0.dev.
+
 This frontend features a total user count on its header and two pages: analytics and user profile.
 
 On the analytics page, you can query by username for a relationship graph showing the friends of the queried user, the users they have referred, and the user that referred the queried user. On this page, you can also query leaderboards of network strength and referral points gained by time range.
