@@ -46,7 +46,7 @@ bun run test
 
 ## API
 
-This component serves HTTP endpoints consumed by the frontend. On startup, it replays historical events to generate snapshot files for fast access by analytics endpoints. Although it's intended to stay in sync with the database in real time, due to time constraints, it performs a one-time sync on startup instead.
+This component serves HTTP endpoints consumed by the frontend. On startup, it replays historical events to generate snapshot files for fast access by analytics endpoints. Although it's intended to stay in sync with the database in real time, due to time constraint, it performs a one-time sync on startup instead.
 
 Note: time series endpoints and user-facing APIs are not implemented in this component.
 

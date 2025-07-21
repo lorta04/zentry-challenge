@@ -35,7 +35,9 @@ This component serves the following API endpoints (default port: `3000`):
 
 On startup, this service also acts as a replayer for processing events stored in MongoDB for analytical purposes. It retrieves all events from MongoDB in batches of 100,000 records and saves them to disk to prevent memory exhaustion. It then uses these on-disk event chunks to feed the relationship graph and generate snapshot files for every 5 seconds of the records' creation times.
 
-This process is intended to always be up-to-date with MongoDB's state. However, due to time constraints, it currently only syncs with the database on startup.
+This process is intended to always be up-to-date with MongoDB's state. However, due to time constraint, it currently only syncs with the database on startup.
+
+> Note: The responses for `GET /analytics/network`, `GET /users/{name}/top-friends`, `GET /users/{name}/friends`, and `GET /meta/users` are served **directly from the latest user state in MongoDB**, not from the snapshot files generated during event replay.
 
 From observation, it appears that this service is capable of retrieving and ingesting around 100k records per second.
 
@@ -58,13 +60,13 @@ The author believes that these four features can be implemented together if atte
 
 Vibe-coded with v0.dev.
 
-This frontend features a total user count on its header and two pages: analytics and user profile.
+This frontend features a total user count on its header and two pages: analytics and user profile (default port: `3001`).
 
 On the analytics page, you can query by username for a relationship graph showing the friends of the queried user, the users they have referred, and the user that referred the queried user. On this page, you can also query leaderboards of network strength and referral points gained by time range.
 
 On the user profile page, you can query by username to retrieve their top 3 influential friends and their friends, along with those users' friend counts, referral counts, and referral points.
 
-Due to time constraints, the time series requirements on the user profile page have not been implemented.
+Due to time constraint, the time series requirements on the user profile page have not been implemented.
 
 #### 5. Redpanda Broker
 
